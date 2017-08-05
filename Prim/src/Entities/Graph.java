@@ -29,6 +29,9 @@ public class Graph {
         Edge edge = new Edge(va, vb, weight);
 
         this.edges.add(edge);
+        
+        va.adjacent.add(vb);
+        vb.adjacent.add(va);
 
         return edge;
     }
@@ -53,8 +56,22 @@ public class Graph {
         throw new NullPointerException("Aresta não encontrada!");
     }
 
-    public Vertex extractMin() {
-        return null;
+    public Vertex extractMin(Queue<Vertex> queue) {
+        Vertex min = null;
+        int weight = 0;
+
+        for(Vertex u: queue) {
+            if(min == null)
+                min = u;
+            else {
+                for(Vertex v: u.adjacent) {
+                    if(getEdge(u, v).weight < weight)
+                        min = u;
+                }
+            }
+        }
+
+        return min;
     }
 
     public int weigth(Vertex a, Vertex b) {
@@ -74,7 +91,7 @@ public class Graph {
         queue.addAll(this.vertices);
 
         while(!queue.isEmpty()) {
-            Vertex u = extractMin();
+            Vertex u = extractMin(queue);
 
             for(Vertex v: u.adjacent) {
                 if((queue.contains(v)) && (weigth(u, v) < v.key)) {
