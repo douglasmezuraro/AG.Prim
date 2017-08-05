@@ -9,9 +9,11 @@ public class Graph {
 
     public final int infinite = Integer.MAX_VALUE;
     public List<Vertex> vertices;
+    public List<Edge> edges;
 
     public Graph() {
         vertices = new ArrayList<>();
+        edges = new ArrayList<>();
     }
 
     public Vertex addVertex(int value) {
@@ -20,12 +22,43 @@ public class Graph {
         return vertex;
     }
 
-    public Vertex extractMin() {
-        new Exception("Método não implementado!");
+    public Edge addEdge(int a, int b, int weight) {
+        Vertex va = getVertex(a);
+        Vertex vb = getVertex(b);
+
+        Edge edge = new Edge(a, b, weight);
+
+        this.edges.add(edge);
+
+        return edge;
     }
 
-    public static int weigth(Vertex a, Vertex b) {
-        new ("Método não implementado!");
+    public Vertex getVertex(int value) throws NullPointerException {
+        for(Vertex u: this.vertices)
+            if(u.value == value)
+                return u;
+        
+        throw new NullPointerException("Vértice não encontrado!");
+    }
+
+    public Edge getEdge(Vertex a, Vertex b) throws NullPointerException {
+        for(Edge e: this.edges) {
+            if(e.a == a) 
+                if(e.b == b)
+                    return e;
+            else if(e.a == b) 
+                if(e.b == a)
+                    return e;  
+        }
+        throw new NullPointerException("Aresta não encontrada!");
+    }
+
+    public Vertex extractMin() {
+        return null;
+    }
+
+    public int weigth(Vertex a, Vertex b) {
+        return getEdge(a, b).weigth;
     }
 
     public void prim(Vertex r) {
