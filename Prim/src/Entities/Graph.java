@@ -26,7 +26,7 @@ public class Graph {
         Vertex va = getVertex(a);
         Vertex vb = getVertex(b);
 
-        Edge edge = new Edge(a, b, weight);
+        Edge edge = new Edge(va, vb, weight);
 
         this.edges.add(edge);
 
@@ -58,7 +58,7 @@ public class Graph {
     }
 
     public int weigth(Vertex a, Vertex b) {
-        return getEdge(a, b).weigth;
+        return getEdge(a, b).weight;
     }
 
     public void prim(Vertex r) {
