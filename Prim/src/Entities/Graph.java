@@ -16,13 +16,13 @@ public class Graph {
         edges = new ArrayList<>();
     }
 
-    public Vertex addVertex(int value) {
-        Vertex vertex = new Vertex(value);
+    public Vertex addVertex(String name) {
+        Vertex vertex = new Vertex(name);
         this.vertices.add(vertex);
         return vertex;
     }
 
-    public Edge addEdge(int a, int b, int weight) {
+    public Edge addEdge(String a, String b, int weight) {
         Vertex va = getVertex(a);
         Vertex vb = getVertex(b);
 
@@ -36,15 +36,15 @@ public class Graph {
         return edge;
     }
 
-    public Vertex getVertex(int value) throws NullPointerException {
+    public Vertex getVertex(String name) throws NullPointerException {
         for(Vertex u: this.vertices)
-            if(u.value == value)
+            if(u.name == name)
                 return u;
         
         throw new NullPointerException("Vértice não encontrado!");
     }
 
-    public Edge getEdge(Vertex a, Vertex b) throws NullPointerException {
+    public Edge getEdge(Vertex a, Vertex b) {
         for(Edge e: this.edges) {
             if(e.a == a) 
                 if(e.b == b)
@@ -53,25 +53,29 @@ public class Graph {
                 if(e.b == a)
                     return e;  
         }
-        throw new NullPointerException("Aresta não encontrada!");
+        return null;
     }
 
     public Vertex extractMin(Queue<Vertex> queue) {
-        Vertex min = null;
-        int weight = 0;
+        Vertex minVertex = null;
+        int minWeight = this.infinite;
 
         for(Vertex u: queue) {
-            if(min == null)
-                min = u;
-            else {
-                for(Vertex v: u.adjacent) {
-                    if(getEdge(u, v).weight < weight)
-                        min = u;
-                }
-            }
+            if(minVertex == null) 
+                minVertex = u;
+               
+            for(Vertex v: u.adjacent) {
+                Edge edge = getEdge(u, v);
+
+                if(edge != null) 
+                    if(edge.weight < minWeight) {
+                        minVertex = v; 
+                        minWeight = edge.weight;
+                    }
+            }                      
         }
 
-        return min;
+        return minVertex;
     }
 
     public int weigth(Vertex a, Vertex b) {

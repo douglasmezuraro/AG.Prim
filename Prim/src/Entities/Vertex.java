@@ -5,18 +5,14 @@ import java.util.ArrayList;
 
 public class Vertex {
 
-    public int value;
+    public String name;
     public int key;
     public Color color;
     public Vertex predecessor;
     public List<Vertex> adjacent;
-
-    Vertex() {
-        this(0);
-    }   
     
-    Vertex(int value) {
-        this.value = 0;
+    Vertex(String name) {
+        this.name = name;
         this.key = 0;
         this.color = Color.white;
         this.predecessor = null;
