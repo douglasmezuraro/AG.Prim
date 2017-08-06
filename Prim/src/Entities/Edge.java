@@ -18,6 +18,6 @@ public class Edge {
     
     @Override
     public String toString() {
-        return "Aresta: " + this.source.name + " - " + this.target.name + "; Peso = " + this.weight; 
+        return "Aresta: " + this.source.name + " - " + this.target.name + "; Peso = " + this.weight + ";"; 
     }
 }

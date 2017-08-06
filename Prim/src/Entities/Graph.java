@@ -7,41 +7,47 @@ import java.util.LinkedList;
 
 public class Graph {
 
-    public final int infinite = Integer.MAX_VALUE;
+    public static final int infinite = Integer.MAX_VALUE;
     public List<Vertex> vertices;
     public List<Edge> edges;
 
     public Graph() {
-        vertices = new ArrayList<>();
-        edges = new ArrayList<>();
+        this.vertices = new ArrayList<>();
+        this.edges = new ArrayList<>();
     }
 
-    public Vertex addVertex(String name) {
-        Vertex vertex = new Vertex(name);
-        this.vertices.add(vertex);
-        return vertex;
+    public Vertex addVertex(String name) throws Exception {
+        if(this.getVertex(name) == null) {
+            Vertex vertex = new Vertex(name);
+            this.vertices.add(vertex);
+            return vertex;
+        }
+        else throw new Exception("Vertice '" + name + "' duplicado!");
     }
 
-    public Edge addEdge(String source, String target, int weight) {
+    public Edge addEdge(String source, String target, int weight) throws Exception { 
         Vertex sourceVertex = getVertex(source);
         Vertex targetVertex = getVertex(target);
 
-        Edge edge = new Edge(sourceVertex, targetVertex, weight);
+        if(this.getEdge(sourceVertex, targetVertex) == null) {
 
-        sourceVertex.adjacent.add(targetVertex);
-        targetVertex.adjacent.add(sourceVertex);
+            Edge edge = new Edge(sourceVertex, targetVertex, weight);
 
-        this.edges.add(edge);
+            sourceVertex.adjacent.add(targetVertex);
+            targetVertex.adjacent.add(sourceVertex);
 
-        return edge;
+            this.edges.add(edge);
+
+            return edge;
+        } else throw new Exception("Aresta '" + source + "' - '" + target + "' duplicada!");
     }
 
-    public Vertex getVertex(String name) throws NullPointerException {
+    public Vertex getVertex(String name) {
         for(Vertex u: this.vertices)
             if(u.name.equals(name))
                 return u;
         
-        throw new NullPointerException("Vértice não encontrado!");
+        return null;
     }
 
     public Edge getEdge(Vertex source, Vertex target) {
@@ -59,7 +65,7 @@ public class Graph {
 
     public Vertex extractMin(Queue<Vertex> Q) {
         Vertex minVertex = null;
-        int minWeight = this.infinite;
+        int minWeight = infinite;
 
         for(Vertex u: Q) {
             if((u.color == Color.white) && (u.key < minWeight)) {
@@ -74,8 +80,7 @@ public class Graph {
     }
 
     public int weigth(Vertex source, Vertex target) {
-        Edge edge = getEdge(source, target);
-        return edge.weight;
+        return getEdge(source, target).weight;
     }
 
     public void prim(Vertex r) {
@@ -104,6 +109,5 @@ public class Graph {
                 System.out.println(getEdge(u.predecessor, u));
         }
     }
-    
 
 }
