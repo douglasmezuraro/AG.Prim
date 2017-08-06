@@ -22,16 +22,16 @@ public class Graph {
         return vertex;
     }
 
-    public Edge addEdge(String a, String b, int weight) {
-        Vertex va = getVertex(a);
-        Vertex vb = getVertex(b);
+    public Edge addEdge(String source, String target, int weight) {
+        Vertex sourceVertex = getVertex(source);
+        Vertex targetVertex = getVertex(target);
 
-        Edge edge = new Edge(va, vb, weight);
+        Edge edge = new Edge(sourceVertex, targetVertex, weight);
 
         this.edges.add(edge);
         
-        va.adjacent.add(vb);
-        vb.adjacent.add(va);
+        sourceVertex.adjacent.add(targetVertex);
+        targetVertex.adjacent.add(sourceVertex);
 
         return edge;
     }
@@ -44,14 +44,14 @@ public class Graph {
         throw new NullPointerException("Vértice não encontrado!");
     }
 
-    public Edge getEdge(Vertex a, Vertex b) {
-        for(Edge e: this.edges) {
-            if(e.a == a) 
-                if(e.b == b)
-                    return e;
-            else if(e.a == b) 
-                if(e.b == a)
-                    return e;  
+    public Edge getEdge(Vertex source, Vertex target) {
+        for(Edge edge: this.edges) {
+            if(edge.source == source) 
+                if(edge.target == target)
+                    return edge;
+            else if(edge.source == target) 
+                if(edge.target == source)
+                    return edge;  
         }
         return null;
     }
@@ -78,8 +78,9 @@ public class Graph {
         return minVertex;
     }
 
-    public int weigth(Vertex a, Vertex b) {
-        return getEdge(a, b).weight;
+    public int weigth(Vertex source, Vertex target) {
+        Edge edge = getEdge(source, target);
+        return edge.weight;
     }
 
     public void prim(Vertex r) {

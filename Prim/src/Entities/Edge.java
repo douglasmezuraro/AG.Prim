@@ -2,17 +2,17 @@ package Entities;
 
 public class Edge {
 
-    public Vertex a;
-    public Vertex b;
+    public Vertex source;
+    public Vertex target;
     public int weight;
 
-    public Edge(Vertex a, Vertex b) {
-        this(a, b, 0);
+    public Edge(Vertex source, Vertex target) {
+        this(source, target, 0);
     }
 
-    public Edge(Vertex a, Vertex b, int weight) {
-        this.a = a;
-        this.b = b;
+    public Edge(Vertex source, Vertex target, int weight) {
+        this.source = source;
+        this.target = target;
         this.weight = weight;
     }
     
