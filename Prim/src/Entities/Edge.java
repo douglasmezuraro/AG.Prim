@@ -16,4 +16,8 @@ public class Edge {
         this.weight = weight;
     }
     
+    @Override
+    public String toString() {
+        return "Aresta: " + this.source.name + " - " + this.target.name + "; Peso = " + this.weight; 
+    }
 }
