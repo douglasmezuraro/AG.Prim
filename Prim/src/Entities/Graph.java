@@ -82,7 +82,11 @@ public class Graph {
     public int weigth(Vertex source, Vertex target) {
         return getEdge(source, target).weight;
     }
-
+    
+    public void prim(String r) {
+        this.prim(this.getVertex(r));
+    }
+    
     public void prim(Vertex r) {
         for(Vertex u: this.vertices) {
             u.key = infinite;
