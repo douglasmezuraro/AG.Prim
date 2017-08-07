@@ -16,6 +16,14 @@ public class Graph {
         this.edges = new ArrayList<>();
     }
 
+    public Boolean connected() {
+        for(Vertex u: this.vertices)
+            if(u.degree() <= 0)
+                return false;
+        
+        return true;
+    }
+
     public Vertex addVertex(String name) throws Exception {
         if(this.getVertex(name) == null) {
             Vertex vertex = new Vertex(name);
