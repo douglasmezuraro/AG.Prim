@@ -1,0 +1,16 @@
+vertices=a,b,c,d,e,f,g,h,i
+aresta=a,b,4
+aresta=a,h,8
+aresta=b,c,8
+aresta=b,h,11
+aresta=c,d,7
+aresta=c,f,4
+aresta=c,i,2
+aresta=d,e,9
+aresta=d,f,14
+aresta=e,f,10
+aresta=f,g,2
+aresta=g,i,6
+aresta=g,h,1
+aresta=i,h,7
+inicio=a

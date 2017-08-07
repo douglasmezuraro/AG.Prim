@@ -2,76 +2,20 @@ package View;
 
 import Entities.*;
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Prim {
 
     public static final Graph graph = new Graph();
+    public static final String sVerticesTag = "vertices";
+    public static final String sEdgeTag = "aresta";
+    public static final String sStartTag = "inicio";
 
-    public static int getInt(String question) {
-        System.out.println(question);
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        Boolean success = false;
-        int result = 0;
-        
-        while(!success) {
-            try{
-                result = Integer.parseInt(in.readLine());
-                success = true;
-            }catch(Exception e){
-                System.err.println("Erro ao ler dado do usuario, digite novamente! Detalhe do erro: " + e.getMessage());
-            }
-        }
-
-        return result;
-    }
-
-    public static String getString(String question) {
-        System.out.println(question);
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        Boolean success = false;
-        String result = null;
-        
-        while(!success) {
-            try{
-                result = in.readLine();
-                success = true;
-            }catch(Exception e){
-                System.err.println("Erro ao ler dado do usuario, digite novamente! Detalhe do erro: " + e.getMessage());
-            }
-        }
-
-        return result;
-    }
-
-    public static void addVertices() {
-        int nVertices = getInt("Quantos vertices deseja adicionar ao grafo?");
-        for(int i = 0; i < nVertices; i++) {
-            try {
-                graph.addVertex(getString("nome do vertice?"));
-            } catch(Exception e) {
-                System.err.println(e.getMessage());
-            }
-        }
-    }
-
-    public static void addEdges() {
-        int aux = getInt("\nDeseja adicionar alguma aresta? (1 = Sim / 0 = Nao)");
-        while(aux == 1) {
-            try {
-                graph.addEdge(getString("Digite a origem:"), 
-                              getString("Digite o destino:"), 
-                              getInt("Digite o peso:"));
-                aux = getInt("Deseja adicionar alguma aresta?");
-            } catch (Exception e) {
-                System.err.println(e.getMessage());    
-            }
-        }
-    }
-
-    public static void foo() {
-        String Vertices = "a,b,c,e,f,g,h,i";
-        for(String vertex: Vertices.split(",")) {
+    public static void addVertices(String vertices) {
+        vertices = vertices.replaceFirst(sVerticesTag + "=", "");
+        for(String vertex: vertices.split(",")) {
             try {
                 graph.addVertex(vertex);
             } catch(Exception e) {
@@ -80,28 +24,59 @@ public class Prim {
         }
     }
 
-    public static void doo() {
-        String edges = "a;b;1";
-        String[] edge = edges.split(";");
+    public static void addEdge(String edge) {
+        edge = edge.replaceFirst(sEdgeTag + "=", "");
+        String[] sEdge = edge.split(",");
         
-        Vertex source = graph.getVertex(edge[0]);
-        Vertex target = graph.getVertex(edge[1]);
-        int weight = Integer.valueOf(edge[2]);
-
-        Edge e = new Edge(source, target, weight);
+        try {
+            graph.addEdge(sEdge[0], sEdge[1], Integer.valueOf(sEdge[2]));            
+        } catch(Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
+    public static void runPrim(String vertex) {
+        vertex = vertex.replaceFirst(sStartTag + "=", "");
+        if(graph.connected())
+            graph.prim(vertex);
+        else
+            System.err.println("O grafo não eh conexo!");
+    }
+    
+    public static void readFile() throws IOException {
+        BufferedReader in;
+        try {
+            in = new BufferedReader(new FileReader("input"));
+            try {
+                String buffer = null;
+                do {
+                    buffer = in.readLine();
+                    
+                    if(buffer != null) {
+                        if(buffer.startsWith(sVerticesTag))
+                            addVertices(buffer);
+                        else if(buffer.startsWith(sEdgeTag))
+                            addEdge(buffer);
+                        else if(buffer.startsWith(sStartTag))
+                            runPrim(buffer);
+                    }
+                    
+                } while(buffer != null);
+                
+            } finally {
+                in.close();
+            }
+         } catch (FileNotFoundException ex) {
+             System.out.println("Arquivo não encontrado!");
+        }
+    }
 
     public static void main(String[] args) {
-        //addVertices();
-        //addEdges();
-        foo();
-        doo();
-
-        if(graph.connected())
-            graph.prim(getString("Digite o vertice que deseja iniciar o prim:"));
-        else
-            System.out.println("O grafo não eh conexo!");
+        try {
+            readFile();
+        } catch(IOException e) {
+            System.err.println("Erro ao abrir arquivo!");
+        }
     }
     
 }
