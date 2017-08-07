@@ -2,9 +2,7 @@ package View;
 
 import Entities.*;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import javafx.application.Application;
 
 public class Prim {
 
@@ -71,9 +69,34 @@ public class Prim {
         }
     }
 
+    public static void foo() {
+        String Vertices = "a,b,c,e,f,g,h,i";
+        for(String vertex: Vertices.split(",")) {
+            try {
+                graph.addVertex(vertex);
+            } catch(Exception e) {
+                System.err.println(e.getMessage());
+            }            
+        }
+    }
+
+    public static void doo() {
+        String edges = "a;b;1";
+        String[] edge = edges.split(";");
+        
+        Vertex source = graph.getVertex(edge[0]);
+        Vertex target = graph.getVertex(edge[1]);
+        int weight = Integer.valueOf(edge[2]);
+
+        Edge e = new Edge(source, target, weight);
+    }
+
+
     public static void main(String[] args) {
-        addVertices();
-        addEdges();
+        //addVertices();
+        //addEdges();
+        foo();
+        doo();
 
         if(graph.connected())
             graph.prim(getString("Digite o vertice que deseja iniciar o prim:"));
