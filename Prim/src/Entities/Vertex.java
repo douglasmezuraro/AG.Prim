@@ -19,4 +19,13 @@ public class Vertex {
         this.adjacent = new ArrayList<>();
     }
 
+    public int degree() {
+        int degree = 0;
+        
+        for(Vertex u: this.adjacent)
+            degree++;
+        
+        return degree;
+    }
+    
 }
