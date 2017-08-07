@@ -19,6 +19,9 @@ public class Vertex {
         this.adjacent = new ArrayList<>();
     }
 
+    /**
+     * @return grau de entrada do vértice
+     */
     public int degree() {
         int degree = 0;
         

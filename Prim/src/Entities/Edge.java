@@ -6,10 +6,6 @@ public class Edge {
     public Vertex target;
     public int weight;
 
-    public Edge(Vertex source, Vertex target) {
-        this(source, target, 0);
-    }
-
     public Edge(Vertex source, Vertex target, int weight) {
         this.source = source;
         this.target = target;
